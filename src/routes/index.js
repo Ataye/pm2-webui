@@ -23,7 +23,7 @@ router.get('/', async (ctx) => {
 })
 
 router.get('/login', loginRateLimiter, checkAuthentication, async (ctx) => {
-    return await ctx.render('auth/login', {layout : false, login: { username: '', password:'', error: null }})
+    return await ctx.render('auth/login', {layout : false, login: { username: '', password:'', error: null, subpath: config.APP_SUB_PATH_REDIR }})
 })
 
 router.post('/login', loginRateLimiter, checkAuthentication, async (ctx) => {
@@ -34,7 +34,7 @@ router.post('/login', loginRateLimiter, checkAuthentication, async (ctx) => {
         return ctx.redirect(config.APP_SUB_PATH_REDIR+'/apps')
     }
     catch(err){
-        return await ctx.render('auth/login', {layout : false, login: { username, password, error: err.message }})
+        return await ctx.render('auth/login', {layout : false, login: { username, password, error: err.message, subpath: config.APP_SUB_PATH_REDIR }})
     }
 })
 
