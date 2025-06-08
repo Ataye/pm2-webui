@@ -38,6 +38,8 @@ app.use(koaBody());
 app.use(serve(path.join(__dirname, 'public')));
 
 const router = require("./routes");
+
+// app.use(mount('/pm2', router.routes()));
 app.use(router.routes());
 
 render(app, {

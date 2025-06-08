@@ -10,6 +10,8 @@ const { isAuthenticated, checkAuthentication }= require('../middlewares/auth')
 const AnsiConverter = require('ansi-to-html');
 const ansiConvert = new AnsiConverter();
 
+// const SUB_PATH_REDIR = '/pm2';
+
 const loginRateLimiter = RateLimit.middleware({
     interval: 2*60*1000, // 2 minutes
     max: 100,
@@ -17,7 +19,7 @@ const loginRateLimiter = RateLimit.middleware({
   });
 
 router.get('/', async (ctx) => {
-    return ctx.redirect('/login')
+    return ctx.redirect(config.APP_SUB_PATH_REDIR+'/login')
 })
 
 router.get('/login', loginRateLimiter, checkAuthentication, async (ctx) => {
@@ -29,7 +31,7 @@ router.post('/login', loginRateLimiter, checkAuthentication, async (ctx) => {
     try {
         await validateAdminUser(username, password)
         ctx.session.isAuthenticated = true;
-        return ctx.redirect('/apps')
+        return ctx.redirect(config.APP_SUB_PATH_REDIR+'/apps')
     }
     catch(err){
         return await ctx.render('auth/login', {layout : false, login: { username, password, error: err.message }})
@@ -45,7 +47,7 @@ router.get('/apps', isAuthenticated, async (ctx) => {
 
 router.get('/logout', (ctx)=>{
     ctx.session = null;
-    return ctx.redirect('/login')
+    return ctx.redirect(config.APP_SUB_PATH_REDIR+'/login')
 })
 
 router.get('/apps/:appName', isAuthenticated, async (ctx) => {
@@ -71,7 +73,7 @@ router.get('/apps/:appName', isAuthenticated, async (ctx) => {
             }
         });
     }
-    return ctx.redirect('/apps')
+    return ctx.redirect(config.APP_SUB_PATH_REDIR+'/apps')
 });
 
 router.get('/api/apps/:appName/logs/:logType', isAuthenticated, async (ctx) => {

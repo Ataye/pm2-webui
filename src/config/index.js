@@ -12,7 +12,8 @@ const config = {
     DEFAULTS: {
         LINES_PER_REQUEST: 50,
         BCRYPT_HASH_ROUNDS: 10,
-    }
+    },
+    APP_SUB_PATH_REDIR: process.env.APP_SUB_PATH_REDIR || '',
 }
 
 module.exports = config;
