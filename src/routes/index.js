@@ -41,7 +41,8 @@ router.post('/login', loginRateLimiter, checkAuthentication, async (ctx) => {
 router.get('/apps', isAuthenticated, async (ctx) => {
     const apps =  await listApps()
     return await ctx.render('apps/dashboard', {
-      apps
+      apps,
+      subpath: config.APP_SUB_PATH_REDIR
     });
 });
 
