@@ -39,8 +39,8 @@ app.use(serve(path.join(__dirname, 'public')));
 
 const router = require("./routes");
 
-// app.use(mount('/pm2', router.routes()));
-app.use(router.routes());
+app.use(mount(config.APP_SUB_PATH_REDIR, router.routes()));
+// app.use(router.routes());
 
 render(app, {
     root: path.join(__dirname, 'views'),
