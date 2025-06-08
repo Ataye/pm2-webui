@@ -52,5 +52,6 @@ render(app, {
 });
 
 app.listen(config.PORT, config.HOST, ()=>{
-    console.log(`Application started at http://${config.HOST}:${config.PORT}`)
+    console.log(`Application started at http://${config.HOST}:${config.PORT}${config.APP_SUB_PATH_REDIR}`)
+    console.log(`Running from directory: ${config.APP_SUB_PATH_REDIR}`)
 })
