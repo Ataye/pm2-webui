@@ -40,18 +40,25 @@ app.use(serve(path.join(__dirname, 'public')));
 
 const router = require("./routes");
 
+// Mount the router to the app in the given sub-path if any:
 app.use(mount(config.APP_SUB_PATH_REDIR, router.routes()));
 // app.use(router.routes());
+
+app.subpath = config.APP_SUB_PATH_REDIR;
 
 render(app, {
     root: path.join(__dirname, 'views'),
     layout: 'base',
     viewExt: 'html',
     cache: false,
-    debug: false
+    debug: false,
+    locals: {
+        subpath: function() { return config.APP_SUB_PATH_REDIR },
+    }
 });
 
 app.listen(config.PORT, config.HOST, ()=>{
     console.log(`Application started at http://${config.HOST}:${config.PORT}${config.APP_SUB_PATH_REDIR}`)
     console.log(`Running from directory: ${config.APP_SUB_PATH_REDIR}`)
 })
+
